@@ -41,5 +41,16 @@ LEFT JOIN (SELECT user_id, COUNT(*) AS media_quantity FROM medias GROUP BY user_
 
 BONUS
 8. Seleziona tutti i post che contengono il tag 'serata' (8)
+SELECT * FROM posts
+WHERE tags LIKE '%serata%';
+
+
 9. Ordina i post in base al numero di tag (165)
+SELECT *, (LENGTH(tags) - LENGTH(REPLACE(tags, ',', '')) + 1) AS tags_count FROM posts
+ORDER BY tags_count;
+
+
 10. Ordina gli utenti in base al numero di tag usati nei loro post (25)
+SELECT users.*, SUM(LENGTH(posts.tags) - LENGTH(REPLACE(posts.tags, ',', '')) + 1) AS tags_count FROM users
+LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id ORDER BY tags_count;
